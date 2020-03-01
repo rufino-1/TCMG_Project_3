@@ -153,41 +153,47 @@ for i, j in dataMonths.items():
 # How many total requests were made in the time period represented in the log?
 # How many requests were made on each day? per week? per month?
 # What percentage of the requests were not successful (any 4xx status code)?
-# What percentage of the requests were redirected elsewhere (any 3xx codes)?
+# What percentage of the requests were redirected elsewhere (any 3xx status codes)?
 # What was the most-requested file?
 # What was the least-requested file?
 
-print()
+
+
+print("\nTotal requests that were made in the time period represented in the log: %d" % totalLines)
+badPercentage = countBad / totalLines * 100
+print("\nThere are %d Bad Lines which is %.2f%% out of the total. " % (countBad,badPercentage))
 #print("4xx errors: " + str(error4xx))
 percent4 = error4xx / totalLines * 100 
-print("Percentage of the requests were not successful: %.2f%%" % percent4)
+print("\nPercentage of the requests were not successful (4xx status code): %.2f%%" % percent4)
 
 #print("3xx errors: " + str(error3xx))
 percent3 = error3xx / totalLines * 100 
-print("\nPercentage of the requests were redirected elsewhere: %.2f%%" % percent3)
+print("\nPercentage of the requests were redirected elsewhere (3xx status codes): %.2f%%" % percent3)
 
 
-#print("Bad Lines: " + str(countBad))
-print("\nTotal requests that were made in the time period represented in the log: %d" % totalLines)
+
 
 ##################### Parsing to check least and most requested file
 maxNumber = fileDictionary["index.html"]
 maxFile = 'index.html'
-minNumber = fileDictionary["index.html"]
-minFile = 'index.html'
+# minNumber = fileDictionary["index.html"]
+# minFile = 'index.html'
+minCount = 0
+maxCount = 0
 for i, j in fileDictionary.items():
     if  j > maxNumber:
         maxNumber = j
         maxFile = i
-    if j < minNumber:
-        minNumber = j
-        minFile = i
+    if j == 1:
+        minCount += 1
+        # minNumber = j
+        # minFile = i
     # print(i, j)
-    
-print()
-print("The most-requested file is: %s" % maxFile)
-print()
-print("The least-requested file is: %s" % minFile)
+maxCount = fileDictionary[maxFile]
+#####################    
+print("\nThe most-requested file is: %s and was requested %d times." % (maxFile,maxCount))
+# print("\nThe least-requested file is: %s" % minFile)
+print("\nThere are %d files that were requested only once." % minCount)
 #####################
 
 
